@@ -4,9 +4,15 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const ENV = process.env.NODE_ENV || "development";
 
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
+
 app.get("/", (req, res) => {
   res.send("Application Deployed Successfully");
 });
+
 
 app.get("/status", (req, res) => {
   res.json({
@@ -17,15 +23,11 @@ app.get("/status", (req, res) => {
 
 app.get("/info", (req, res) => {
   res.json({
-    name: "Express Deployment App",
+    name: "My Express App",
     version: "1.0.0",
-    author: "Your Name"
+    author: "Dhanashree",
+    environment: ENV
   });
-});
-
-app.use((req, res, next) => {
-  console.log(`${req.method} ${req.url}`);
-  next();
 });
 
 app.use((req, res) => {
@@ -34,6 +36,7 @@ app.use((req, res) => {
   });
 });
 
+
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT} in ${ENV} mode`);
 });
